@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:panucci_delivery/components/item_list.dart';
+import 'package:panucci_delivery/store/cart_store.dart';
+import 'package:provider/provider.dart';
 import '../components/categoria_text.dart';
 import '../components/search_input.dart';
 
@@ -10,6 +13,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartStore = Provider.of<CartStore>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
@@ -35,19 +39,19 @@ class Home extends StatelessWidget {
               hasScrollBody: false,
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: InkWell(
-                  onTap: () {
-
-                  },
-                  child: Ink(
-                      width: double.infinity,
-                      height: 80,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surfaceTint,
-                          borderRadius:
-                              const BorderRadius.vertical(top: Radius.circular(10))),
-                      child: Stack(
+                child: Observer(
+                  builder: (context) {
+                    return InkWell(
+                      onTap: () {},
+                      child: Ink(
+                        width: double.infinity,
+                        height: 80,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.surfaceTint,
+                            borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(10))),
+                        child: Stack(
                           children: [
                             Align(
                               alignment: Alignment.centerLeft,
@@ -56,11 +60,12 @@ class Home extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
                                     child: Text(
-                                      "0",
+                                      cartStore.countItems.toString(),
                                       style: TextStyle(
-                                        fontSize: 16,
-                                        color: 
-                                          Theme.of(context).colorScheme.onPrimary),
+                                          fontSize: 16,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary),
                                     ),
                                   ),
                                   Icon(
@@ -77,9 +82,10 @@ class Home extends StatelessWidget {
                               child: Text(
                                 "Ver carrinho",
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  color: 
-                                    Theme.of(context).colorScheme.onPrimary),
+                                    fontSize: 16,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary),
                               ),
                             ),
                             Align(
@@ -87,12 +93,17 @@ class Home extends StatelessWidget {
                               child: Text(
                                 "R\$ 00,00",
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  color:
-                                    Theme.of(context).colorScheme.onPrimary),
+                                    fontSize: 16,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary),
                               ),
                             ),
-                          ])),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             )
@@ -102,5 +113,3 @@ class Home extends StatelessWidget {
     );
   }
 }
-
-
