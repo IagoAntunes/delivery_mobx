@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:panucci_delivery/components/item_list.dart';
+import 'package:panucci_delivery/screens/checkout.dart';
 import 'package:panucci_delivery/store/cart_store.dart';
 import 'package:provider/provider.dart';
 import '../components/categoria_text.dart';
@@ -43,7 +44,15 @@ class Home extends StatelessWidget {
                   builder: (context) {
                     return !cartStore.emptyList
                         ? InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      Checkout(cartStore: cartStore),
+                                ),
+                              );
+                            },
                             child: Ink(
                               width: double.infinity,
                               height: 80,
@@ -97,7 +106,7 @@ class Home extends StatelessWidget {
                                   Align(
                                     alignment: Alignment.centerRight,
                                     child: Text(
-                                      "R\$ 00,00",
+                                      "R\$ ${cartStore.totalDaCompra.toStringAsFixed(2)}",
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: Theme.of(context)
