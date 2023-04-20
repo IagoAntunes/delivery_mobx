@@ -1,20 +1,28 @@
 import 'package:mobx/mobx.dart';
 
+import '../models/item.dart';
+
 part 'cart_store.g.dart';
 
 class CartStore = _CartStore with _$CartStore;
 
 abstract class _CartStore with Store {
   @observable
-  int countItems = 0;
+  List<Item> listaItem = ObservableList<Item>();
+
+  @computed
+  int get quantidadeItem => listaItem.length;
+
+  @computed
+  bool get emptyList => listaItem.isEmpty;
 
   @action
-  void addItem() {
-    countItems++;
+  void addItem(Item item) {
+    listaItem.add(item);
   }
 
   @action
-  void removeItem() {
-    countItems--;
+  void removeItem(Item item) {
+    listaItem.remove(item);
   }
 }
